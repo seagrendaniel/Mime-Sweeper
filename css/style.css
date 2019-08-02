@@ -1,0 +1,54 @@
+html, * {
+    font-family: 'Lacquer', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 50vh;
+    display: grid;
+    grid-template-columns: 150px 250px 50px;
+    grid-template-rows: 1fr 1fr 4fr 1fr;
+    justify-items: center;
+  }
+
+div.gameboard {
+    display: grid;
+    grid-template-columns: repeat(10, 20px);
+    grid-template-rows: repeat(10, 20px);
+    grid-column: 2 / 3;
+    grid-row: 2 / 5;
+    
+}
+
+div.game-piece {
+    border: 0.5px solid black;
+    margin-top: -1px;
+    margin-left: -1px;
+    background-color: #6E79CA;
+}
+
+h1 {
+    grid-column: 2 / 3;
+    background-color: orange;
+    padding: 10px;
+    border-radius: 2%;
+}
+
+div.timer{
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    font-size: 12px;
+}
+
+div.bomb-counter {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    font-size: 12px;
+}
+
+footer {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+    font-size: 8px;
+    align-self: center;
+}
