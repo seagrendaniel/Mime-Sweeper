@@ -3,10 +3,19 @@ html, * {
     box-sizing: border-box;
   }
   
-  body {
+body {
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    background-color: #BC0B15;
+}
+
+main {
     height: 50vh;
     display: grid;
-    grid-template-columns: 150px 250px 50px;
+    grid-template-columns: 150px 250px 150px;
     grid-template-rows: 1fr 1fr 4fr 1fr;
     justify-items: center;
   }
@@ -24,13 +33,13 @@ div.game-piece {
     border: 0.5px solid black;
     margin-top: -1px;
     margin-left: -1px;
-    background-color: #6E79CA;
+    background-color: #FF8300;
 }
 
 h1 {
     grid-column: 2 / 3;
-    background-color: orange;
-    padding: 10px;
+    /* background-color: crimson; */
+    padding: 8px;
     border-radius: 2%;
 }
 
@@ -38,6 +47,13 @@ div.timer{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
     font-size: 12px;
+}
+
+img{
+    height: 10vmin;
+    width: 10vmin;
+    border: 1px solid black;
+    border-radius: 50%;
 }
 
 div.bomb-counter {
@@ -50,5 +66,17 @@ footer {
     grid-column: 2 / 3;
     grid-row: 4 / 5;
     font-size: 8px;
+    align-self: center;
+}
+
+#mime-left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    align-self: center;
+}
+
+#mime-right {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
     align-self: center;
 }
