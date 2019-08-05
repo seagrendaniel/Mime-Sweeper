@@ -1,6 +1,6 @@
 class GamePiece {
     constructor (bomb, flagged, neighbors) {
-        this.bomb = bomb;
+        this.bomb = true;
         this.flagged = flagged;
         this.neighbors = neighbors;
     }
@@ -8,5 +8,8 @@ class GamePiece {
         if(this.flagged === false){
             this.flagged = true;
         } else this.flagged = false;
+    }
+    isClicked(){
+
     }
 }

@@ -1,14 +1,8 @@
 /*----- constants -----*/
 const gameRows = Array(10).fill(new GamePiece(0, false, 0));
-const gameBoard = Array(10).fill(gameRows);
+const gameBoard = Array(10).fill(gameRows.slice());
 
 
-// console.log(gameBoard);
-const gamePiece = {
-    bomb: '0',
-    flagged: false,
-    neighbors: '0'
-};
 
 
 let gameBoardTest = [
@@ -61,14 +55,31 @@ function init() {
             parent.appendChild(div);
         }
     }
+    getNeighbors();
+}
+
+function placeBomb(){
+    
+}
+
+function getNeighbors(){
+    let gamePiece = getGamePiece(id);
+    console.log(gamePiece);
+    
 }
 
 
 
+// arr[i][j-1], arr[i][j+1]
+// arr[i+1][j-1], arr[i][j+1], arr[i+1][j]
+// arr[i-1][j-1], arr[i-1][j+1], arr[i-1][j]
 
-
-
-
+function getGamePiece(id){
+    let row = parseInt(id.split(':')[0]);
+    let col = parseInt(id.split(':')[1]);
+    let gamePiece = gameBoard[row][col];
+    return gamePiece;
+}
 
 function leftClick(m) {
     console.log(`I'm pressed`);
@@ -78,21 +89,19 @@ function leftClick(m) {
     
 }
 function rightClick(m) {
-    console.log(m.d);
-    let selectedPiece = m.id;
-    m.style.backgroundColor = 'red';
-    let row = +selectedPiece.split(':')[0];
-    let col = +selectedPiece.split(':')[1];
-    gameBoard[row][col].toggleFlag();
-    console.log(gameBoard[row][col]);
+    let gamePiece = getGamePiece(m.id);
+    gamePiece.toggleFlag();
+    console.log(gameBoard[0]);
+    if(gamePiece.flagged === true){
+        m.style.backgroundColor = 'red';
+    } else m.style.backgroundColor = '#FF8300'
     
-       
 }
 
 /*----- event listeners -----*/
 let lClick = document.querySelectorAll('.game-piece');
 let rClick = document.querySelectorAll('.game-piece');
-// console.log(lClick);
+
 
 lClick.forEach(function (m, i) {
     m.addEventListener('click', function () {
@@ -107,3 +116,9 @@ rClick.forEach(function (m, i) {
         // console.log(gamePiece.flagged);
     });
 });
+
+
+
+
+
+
