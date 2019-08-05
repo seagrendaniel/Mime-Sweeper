@@ -43,7 +43,7 @@ h1 {
     border-radius: 2%;
 }
 
-div.timer{
+#timer{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
     font-size: 12px;
@@ -79,4 +79,13 @@ footer {
     grid-column: 3 / 4;
     grid-row: 1 / 2;
     align-self: center;
+}
+
+#play-game {
+    text-align: center;
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    align-self: center;
+    border: 2px solid black;
+    border-radius: 2%;
 }

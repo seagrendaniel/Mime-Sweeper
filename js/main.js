@@ -1,24 +1,13 @@
 /*----- constants -----*/
-const gameRows = Array(10).fill(new GamePiece(0, false, 0));
-const gameBoard = Array(10).fill(gameRows.slice());
+
+const gameBoardLength = 10;
+const timer = null;
+// let gameBoard = Array(10).fill([]);
 
 
-
-
-let gameBoardTest = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-
-/*----- app's state (variables) -----*/
+    /*----- app's state (variables) -----*/
+let gameBoard = new Array(10).fill(null).map(e => new Array(10));
+// console.log(gameBoard)
 
 
 
@@ -47,73 +36,85 @@ init();
 
 function init() {
     let parent = document.querySelector('.gameboard');
-    for (i = 0; i < gameBoardTest.length; i++) {
-        for (let j = 0; j < gameBoardTest[i].length; j++) {
+    gameBoard.forEach((g, i) => {
+        for (var j = 0; j < gameBoard.length; j++) {
+            let bomb = Math.random() < 0.3;
+            var newPiece = new GamePiece(i, j, bomb);
+            g[j] = newPiece;
+            
             let div = document.createElement(`div`);
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
             parent.appendChild(div);
         }
-    }
-    getNeighbors();
+
+    })
+    // getNeighbors();
+    console.log(gameBoard);
 }
 
-function placeBomb(){
-    
-}
+function placeBomb() {
 
-function getNeighbors(){
-    let gamePiece = getGamePiece(id);
-    console.log(gamePiece);
-    
 }
 
 
-
-// arr[i][j-1], arr[i][j+1]
-// arr[i+1][j-1], arr[i][j+1], arr[i+1][j]
-// arr[i-1][j-1], arr[i-1][j+1], arr[i-1][j]
-
-function getGamePiece(id){
-    let row = parseInt(id.split(':')[0]);
-    let col = parseInt(id.split(':')[1]);
+function getGamePiece(m){
+    let row = parseInt(m.split(':')[0]);
+    let col = parseInt(m.split(':')[1]);
+    // let row = m.row;
+    // let col = m.col;
     let gamePiece = gameBoard[row][col];
+    // console.dir(typeof m);
+    // console.log(gamePiece.col, gamePiece.row);
     return gamePiece;
 }
 
 function leftClick(m) {
-    console.log(`I'm pressed`);
-    console.log(m);
-    
-    m.style.backgroundColor = 'blue';
-    
+    let gamePiece = getGamePiece(m.target.id);
+    gamePiece.isClicked();
+    if (gamePiece.clicked){
+        m.target.style.backgroundColor = 'blue';
+    } 
+    console.log(gamePiece);
+
 }
 function rightClick(m) {
-    let gamePiece = getGamePiece(m.id);
+    let gamePiece = getGamePiece(m.target.id);
     gamePiece.toggleFlag();
-    console.log(gameBoard[0]);
-    if(gamePiece.flagged === true){
-        m.style.backgroundColor = 'red';
-    } else m.style.backgroundColor = '#FF8300'
-    
+    if(gamePiece.flagged){
+        m.target.style.backgroundColor = 'red';
+    } else m.target.style.backgroundColor = '#FF8300'
+    console.log(gamePiece);
+}
+
+/*----- timer function -----*/
+
+function changeTime() {
+    document.getElementById('timer').innerHTML = `Time Taken <br> ${++time} sec`;
+}
+
+
+function start() {
+    time = 0;
+    timer = setInterval(changeTime, 1000);
 }
 
 /*----- event listeners -----*/
 let lClick = document.querySelectorAll('.game-piece');
 let rClick = document.querySelectorAll('.game-piece');
+let startGame = document.querySelector('.play-game').addEventListener('click', start);
 
 
 lClick.forEach(function (m, i) {
-    m.addEventListener('click', function () {
-        leftClick(m)
+    m.addEventListener('click', function (evt) {
+        leftClick(evt);
     });
 });
 
 rClick.forEach(function (m, i) {
     m.addEventListener('contextmenu', function (evt) {
         evt.preventDefault();
-        rightClick(m)
-        // console.log(gamePiece.flagged);
+        rightClick(evt)
     });
 });
 
