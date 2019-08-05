@@ -53,9 +53,17 @@ function init() {
     console.log(gameBoard);
 }
 
-function placeBomb() {
 
+function getNeighborsArray(m, row, col) {
+    let gamePiece = getGamePiece(m.target.id);
+    let simplifiedArray = [];
+    gamePiece.isClicked();
+    gamePiece.neighbors.forEach(function(n,i){
+    simplifiedArray[i] = gamePiece.neighbors[i];
+    });
+    return simplifiedArray;
 }
+
 
 
 function getGamePiece(m){
@@ -64,18 +72,29 @@ function getGamePiece(m){
     // let row = m.row;
     // let col = m.col;
     let gamePiece = gameBoard[row][col];
-    // console.dir(typeof m);
-    // console.log(gamePiece.col, gamePiece.row);
     return gamePiece;
 }
 
 function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
     gamePiece.isClicked();
+    gamePiece.getNeighbors(gamePiece.row, gamePiece.col)
     if (gamePiece.clicked){
         m.target.style.backgroundColor = 'blue';
     } 
-    console.log(gamePiece);
+
+    console.log(gamePiece.neighbors);
+    gamePiece.neighbors.forEach(function (n,i){
+        console.log(n);
+        var otherPiece = document.getElementById(n);
+        if(otherPiece.bomb){
+            otherPiece.innerHTML = '1'
+        }
+        if(otherPiece.style.backgroundColor !== 'blue'){
+        otherPiece.style.backgroundColor = 'purple';
+        }
+    });
+
 
 }
 function rightClick(m) {

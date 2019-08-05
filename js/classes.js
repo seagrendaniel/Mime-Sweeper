@@ -20,11 +20,14 @@ class GamePiece {
             this.clicked = true;
         } 
     }
-    // getNeighbors(row, col) {
+    getNeighbors(row, col) {
         
-    //     neighbors = [[gamePiece[row-1][col-1], gamePiece[row-1][col], gamePiece[row-1][col+1]],
-    //                  [gamePiece[row][col-1], gamePiece[row][col+1]],
-    //                  [gamePiece[row+1][col-1], gamePiece[row+1][col], gamePiece[row+1][col+1]]];
-    //     return neighbors;
-    // }
+        this.neighbors = [`${row-1}:${col-1}`, `${row-1}:${col}`, `${row-1}:${col+1}`,
+                     `${row}:${col-1}`, `${row}:${col+1}`,
+                     `${row+1}:${col-1}`, `${row+1}:${col}`, `${row+1}:${col+1}`];
+        // this.neighbors.forEach(function(m, i){
+        //     this.neighbors = parseInt((this.neighbors).split(':')); 
+        // });
+        // return neighbors;
+    }
 }
