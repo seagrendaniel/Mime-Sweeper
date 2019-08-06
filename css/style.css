@@ -47,6 +47,15 @@ h1 {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
     font-size: 12px;
+    margin-top: 10px;
+}
+
+#time-passed{
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
 }
 
 img{
@@ -61,6 +70,15 @@ div.bomb-counter {
     grid-row: 2 / 3;
     font-size: 12px;
 }
+#bombs-left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+
 
 footer {
     grid-column: 2 / 3;
@@ -88,4 +106,16 @@ footer {
     align-self: center;
     border: 2px solid black;
     border-radius: 2%;
+}
+
+.bomb {
+    background-color: #FF8300;
+    border: 0.5px solid black;
+    margin-top: -1px;
+    margin-left: -1px;
+    text-align: center;
+}
+
+.hidden {
+    font-size: 0px;
 }

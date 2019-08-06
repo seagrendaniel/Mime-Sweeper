@@ -6,9 +6,7 @@ class GamePiece {
         this.flagged = false;
         this.clicked = false;
         this.neighbors = [];
-        // this.neighbors = [[this[row-1][col-1], this[row-1][col], this[row-1][col+1]],
-        // [this[row][col-1], this[row][col+1]],
-        // [this[row+1][col-1], this[row+1][col], this[row+1][col+1]]];
+       
     }
     toggleFlag(){
         if(this.flagged === false){
@@ -25,9 +23,5 @@ class GamePiece {
         this.neighbors = [`${row-1}:${col-1}`, `${row-1}:${col}`, `${row-1}:${col+1}`,
                      `${row}:${col-1}`, `${row}:${col+1}`,
                      `${row+1}:${col-1}`, `${row+1}:${col}`, `${row+1}:${col+1}`];
-        // this.neighbors.forEach(function(m, i){
-        //     this.neighbors = parseInt((this.neighbors).split(':')); 
-        // });
-        // return neighbors;
     }
 }
