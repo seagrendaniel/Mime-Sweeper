@@ -3,11 +3,13 @@
 const gameBoardLength = 10;
 let timer = null;
 let bombCount = 0;
+let openPieces;
 // let gameBoard = Array(10).fill([]);
 
 
-    /*----- app's state (variables) -----*/
+/*----- app's state (variables) -----*/
 let gameBoard = new Array(10).fill(null).map(e => new Array(10));
+let bombArray = new Array(10).fill('').map(e => new Array(10));
 // console.log(gameBoard)
 
 
@@ -39,7 +41,7 @@ function init() {
     let parent = document.querySelector('.gameboard');
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.1;
+            let bomb = Math.random() < 0.90;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
             
@@ -60,30 +62,55 @@ function init() {
 
 function render(){
     
+    let gameBoardTotalLen = 0;
     let bombCounter = document.getElementById('bombs-left');
     gameBoard.forEach(function(n, i){
         gameBoard[i].forEach(function(m, j){
-            if(gameBoard[i][j].bomb) {
+            gameBoardTotalLen += 1;
+            bombArray[i][j] = gameBoard[i][j];
+            if(gameBoard[i][j].bomb){
                 bombCount += 1;
             } 
         });
     })
     bombCounter.innerHTML = `${bombCount}`;
+    
+    openPieces = gameBoardTotalLen - bombCount;
+    console.log(openPieces);
 }
 
 
 function getWinner(){
+    let flaggedArray = new Array(10).fill(null).map(e => new Array(10));
+    let clickedArray = new Array(10).fill(null).map(e => new Array(10));
+    let totalClicked = 0;
+
     gameBoard.forEach(function(n,i){
         gameBoard.forEach(function(m,j){
-            if(gameBoard[i][j].flagged && gameBoard[i][j].bomb){
-                alert('You won!');
-            } else if(gameBoard[i][j].clicked && gameBoard[i][j].bomb){
-                alert('You lost!');
+            if(gameBoard[i][j].flagged){
+                flaggedArray[i][j] = gameBoard[i][j];
             }
-
-        });
+            if(gameBoard[i][j].clicked){
+                clickedArray[i][j] = gameBoard[i][j];
+                totalClicked += 1;
+            } 
     });
-};
+});
+    console.log(totalClicked);
+    for(let i=0; i<bombArray.length; i++){
+        for(let k=0; k<gameBoard.length; k++){
+            if(bombArray[i][k].clicked && gameBoard[i][k].clicked){
+            // console.log(bombArray[i][k].clicked, 'hi', gameBoard[i][k].clicked, i, k);
+            if(bombArray[i][k].bomb){
+                console.log('You Lost!');
+            } else if (totalClicked === openPieces) {
+                console.log('You won!')
+            }
+        }
+    }
+}   
+    // alert('You won!');
+}
 
 
 
@@ -114,8 +141,8 @@ function getGamePiece(m){
 function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
     console.log(gamePiece);
-    let gpDisplay = m.target;
     gamePiece.isClicked();
+    let gpDisplay = m.target;
     gamePiece.getNeighbors(gamePiece.row, gamePiece.col)
     if (gamePiece.clicked){
         if(gamePiece.bomb){
@@ -124,18 +151,18 @@ function leftClick(m) {
         } else m.target.style.backgroundColor = 'blue';
     } 
 
+    getWinner();
     gamePiece.neighbors.forEach(function (n,i){
         var otherPiece = document.getElementById(n);
         if(otherPiece.style.backgroundColor !== 'blue'){
         otherPiece.style.backgroundColor = 'purple';
         }
     });
-    getWinner();
 
 }
+
 function rightClick(m) {
     let gamePiece = getGamePiece(m.target.id);
-    // let bombCount = parseInt(document.getElementById('bombs-left').innerHTML);
     let totalBombs = bombCount
     let counter = 0
     gamePiece.toggleFlag();
@@ -198,7 +225,6 @@ rClick.forEach(function (m, i) {
         rightClick(evt)
     });
 });
-
 
 
 
