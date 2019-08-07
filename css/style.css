@@ -34,6 +34,7 @@ div.game-piece {
     margin-top: -1px;
     margin-left: -1px;
     background-color: #FF8300;
+    text-align: center;
 }
 
 h1 {
@@ -46,7 +47,7 @@ h1 {
 #timer{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    font-size: 12px;
+    font-size: 16px;
     margin-top: 10px;
 }
 
@@ -77,8 +78,6 @@ div.bomb-counter {
     text-align: center;
     margin-top: 5px;
 }
-
-
 
 footer {
     grid-column: 2 / 3;
@@ -118,4 +117,11 @@ footer {
 
 .hidden {
     font-size: 0px;
+}
+
+div.winner {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    font-size: 50px;
+    z-index: 2;
 }

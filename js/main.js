@@ -12,16 +12,6 @@ let gameBoard = new Array(10).fill(null).map(e => new Array(10));
 let bombArray = new Array(10).fill('').map(e => new Array(10));
 // console.log(gameBoard)
 
-
-
-
-
-// let clickTest = lClick.forEach(function(m,i){
-//     m.addEventListener('click', function(){
-//         m.style.backgroundColor = 'blue';
-//     });
-// }); 
-
 /*----- cached element references -----*/
 
 
@@ -41,7 +31,7 @@ function init() {
     let parent = document.querySelector('.gameboard');
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.2;
+            let bomb = Math.random() < 0.1;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
             
@@ -49,7 +39,7 @@ function init() {
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
             if(bomb){ 
-                div.setAttribute('class', 'bomb hidden game-piece');
+                div.setAttribute('class', 'bomb game-piece');
                 div.innerHTML = 'O';
             }
             parent.appendChild(div);
@@ -74,9 +64,9 @@ function render(){
     })
     bombCounter.innerHTML = `${bombCount}`;
     openPieces = gameBoardTotalLen - bombCount;
-    // console.log(openPieces);
 }
 
+/*----- Determine Winner -----*/
 
 function getWinner(){
     let flaggedArray = new Array(10).fill(null).map(e => new Array(10));
@@ -99,27 +89,37 @@ function getWinner(){
         for(let k=0; k<gameBoard.length; k++){
             if(bombArray[i][k].clicked && gameBoard[i][k].clicked){
             if(bombArray[i][k].bomb){
-                console.log('You Lost!');
+                alert('You Lost!');
             } else if (totalClicked === openPieces) {
-                console.log('You won!')
+                alert('You won!')
                 }
             }
         }
     }   
 }
 
+/*----- Winner & Loser Functions -----*/
 
+function youWon(){
+    let parent = document.querySelector('.gameboard');
+    let winDiv = document.createElement(`div`);
+    winDiv.setAttribute(`class`, `winner`);
+    winDiv.innerHTML = `You Survived! Ready to try again? Muahahahahaha...`;
+    parent.appendChild(winDiv);
+    bombCount = 0;
+}
 
+function youLost() {
 
+}
 
-
+/*----- Calculate Game Piece Neighbors -----*/
 
 
 function getNeighborsArray(m) {
     let gamePiece = m;
-    // console.log('im a game piece', gamePiece);
     let simplifiedArray = [];
-    let neighborsArray = [];
+    let neighborArray = [];
     gamePiece.neighbors.forEach(function(n,i){
         simplifiedArray[i] = gamePiece.neighbors[i];
         simplifiedArray[i] = simplifiedArray[i].split(':');
@@ -129,10 +129,20 @@ function getNeighborsArray(m) {
             simplifiedArray[i][j] = parseInt(simplifiedArray[i][j]);
         });
     });
-    neighborsArray = simplifiedArray.filter(arr => arr[0] >= 0 && arr[1] >= 0 && arr[0] < gameBoard.length && arr[1] < gameBoard.length)
-    // console.log(simplifiedArray);
-    // console.log('neighbor array', neighborsArray);
-    return neighborsArray;
+    neighborArray = simplifiedArray.filter(arr => arr[0] >= 0 && arr[1] >= 0 && arr[0] < gameBoard.length && arr[1] < gameBoard.length)
+    return neighborArray;
+}
+
+function neighborPieceArray(nArr){
+    let nOfN = [];
+    let gamePiece;
+    for(let i=0; i<nArr.length; i++){
+        row = nArr[i][0];
+        col = nArr[i][1];
+        gamePiece = gameBoard[row][col];
+        nOfN.push(gamePiece);
+    }
+    return nOfN;
 }
 
 
@@ -147,45 +157,40 @@ function getGamePiece(m){
 
 function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
-    // console.log(gamePiece);
     gamePiece.isClicked();
     let gpDisplay = m.target;
     gamePiece.getNeighbors(gamePiece.row, gamePiece.col)
     if (gamePiece.clicked){
         if(gamePiece.bomb){
             // console.log('this is', gpDisplay);
-            gpDisplay.classList.remove('hidden');
-        } else m.target.style.backgroundColor = 'blue';
+            // gpDisplay.classList.remove('hidden');
+        } else m.target.style.backgroundColor = '#59ccf0';
     } 
 
     getWinner();
     neighborArray = getNeighborsArray(gamePiece);
-    // Want to translate neighborArray in selections on gameBoard with same row/col indices
-    console.log(neighborArray);
-    for (let i=0; i<neighborArray.length; i++){
-        for(let j=0; j<neighborArray.length; j++){
-            let pieceChange = document.getElementById(`${neighborArray[i]}:${neighborArray[j]}`);
-            // console.log(pieceChange);
-            pieceChange.style.backgroundColor = 'purple';
+    // console.log(neighborArray);
+    let npa = [];
+    npa = neighborPieceArray(neighborArray);
+    let bombsAround = 0;
+    for(let i=0; i<npa.length; i++){
+        if(npa[i].bomb){
+            bombsAround += 1;
         }
     }
+    m.target.innerHTML = bombsAround;
+
+
+
+    for (let i=0; i<neighborArray.length; i++){
+        const row = neighborArray[i][0];
+        const col = neighborArray[i][1];
+        let pieceChange = document.getElementById(`${row}:${col}`);
+        if(pieceChange.style.backgroundColor !== 'blue'){
+        pieceChange.style.backgroundColor = 'purple';
+        }
     }
-    // let curGamePcRow = gameBoard.
-    // neighborArray.forEach(function(m,i){
-    //     neighborArray[i].forEach(function(n,j){
-    //         gameBoard.row = neighborArray[i][j]
-    //         gameBoard
-    //     });
-    // });
-    // gamePiece.neighbors.forEach(function (n,i){
-    //     var otherPiece = document.getElementById(n);
-    //     if(otherPiece.style.backgroundColor !== 'blue'){
-    //     otherPiece.style.backgroundColor = 'purple';
-    //     }
-    // });
-
-
-
+}
 
 function rightClick(m) {
     let gamePiece = getGamePiece(m.target.id);
@@ -210,7 +215,7 @@ function rightClick(m) {
         m.target.style.backgroundColor = 'red';
     } else m.target.style.backgroundColor = '#FF8300'
 
-    getWinner();
+    // getWinner();
 }
     // render();
     // console.log(gamePiece);
@@ -226,31 +231,31 @@ function changeTime() {
 function start() {
     time = 0;
     timer = setInterval(changeTime, 1000);
+
+    lClick.forEach(function (m, i) {
+        m.addEventListener('click', function (evt) {
+            leftClick(evt);
+        });
+    });
+    
+    rClick.forEach(function (m, i) {
+        m.addEventListener('contextmenu', function (evt) {
+            evt.preventDefault();
+            rightClick(evt)
+        });
+    });
     render();
 }
 
 /*----- event listeners -----*/
 let lClick = document.querySelectorAll('.game-piece');
 let rClick = document.querySelectorAll('.game-piece');
-
-
 let startGame = document.querySelector('.play-game').addEventListener('click', start);
 
 
 
 
-lClick.forEach(function (m, i) {
-    m.addEventListener('click', function (evt) {
-        leftClick(evt);
-    });
-});
 
-rClick.forEach(function (m, i) {
-    m.addEventListener('contextmenu', function (evt) {
-        evt.preventDefault();
-        rightClick(evt)
-    });
-});
 
 
 
