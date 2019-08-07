@@ -5,7 +5,7 @@ class GamePiece {
         this.bomb = bomb;
         this.flagged = false;
         this.clicked = false;
-        this.neighbors = [];
+        this.neighbors = this.getNeighbors(row, col);
        
     }
     toggleFlag(){
@@ -20,7 +20,7 @@ class GamePiece {
     }
     getNeighbors(row, col) {
         
-        this.neighbors = [`${row-1}:${col-1}`, `${row-1}:${col}`, `${row-1}:${col+1}`,
+        return [`${row-1}:${col-1}`, `${row-1}:${col}`, `${row-1}:${col+1}`,
                      `${row}:${col-1}`, `${row}:${col+1}`,
                      `${row+1}:${col-1}`, `${row+1}:${col}`, `${row+1}:${col+1}`];
     }

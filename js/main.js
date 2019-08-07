@@ -169,14 +169,16 @@ function getDivFromPiece(gamePiece){
 
 /*----- Calculate Bombs around Clicked Piece and Flood -----*/
 
-function floodBoard(arg, arg2) {
+function floodBoard(arg, arg2, visitedPieces = {}) {
     let npa = [];
     let bombsAround = 0;
-    let npaOfNpaIdx = [];
-    let npaOfNpaObj = [];
+    const key = `${arg.row}:${arg.col}`;
+
+    if (visitedPieces[key]) return;
+    visitedPieces[key] = true;
 
 
-    neighborArray = getNeighborsArray(arg);         // returns array of indices of around arg
+    neighborArray = getNeighborsArray(arg);         // returns array of indices of pieces around arg
     npa = neighborPieceArray(neighborArray);        // returns array of gamePiece objects around arg
 
 
@@ -186,26 +188,21 @@ function floodBoard(arg, arg2) {
         }
     }
     
-    console.log(arg2);
     arg2.innerHTML = bombsAround;
-    
-    console.log(arg, arg2.target);
-    
-    for (let i=0; i<neighborArray.length; i++){
-        const row = neighborArray[i][0];
-        const col = neighborArray[i][1];
-        let pieceChange = document.getElementById(`${row}:${col}`);
-        if(pieceChange.style.backgroundColor !== '#59ccf0' && !npa[i].clicked){
-        pieceChange.style.backgroundColor = 'purple';
-        }  
-    }
+        
+    // for (let i=0; i<neighborArray.length; i++){
+    //     const row = neighborArray[i][0];
+    //     const col = neighborArray[i][1];
+    //     let pieceChange = document.getElementById(`${row}:${col}`);
+    //     if(pieceChange.style.backgroundColor !== '#59ccf0' && !npa[i].clicked){
+    //     pieceChange.style.backgroundColor = 'purple';
+    //     }  
+    // }
 
     if(bombsAround === 0){
-        console.log('hitting if statement');
         for(let i=0; i<npa.length; i++){
-        console.log('hitting', i)
         var m = getDivFromPiece(npa[i]);
-        floodBoard(npa[i], m);
+        floodBoard(npa[i], m, visitedPieces);
         }
     }
 }
@@ -219,7 +216,6 @@ function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
     gamePiece.isClicked();
     let gpDisplay = m.target;
-    gamePiece.getNeighbors(gamePiece.row, gamePiece.col)
     if (gamePiece.clicked){
         if(gamePiece.bomb){
             // console.log('this is', gpDisplay);
