@@ -31,7 +31,7 @@ function init() {
     let parent = document.querySelector('.gameboard');
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.1;
+            let bomb = Math.random() < 0.2;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
             
@@ -90,8 +90,12 @@ function getWinner(){
             if(bombArray[i][k].clicked && gameBoard[i][k].clicked){
             if(bombArray[i][k].bomb){
                 alert('You Lost!');
+                // bombCount = 0;
+                // init();
+                // render();
             } else if (totalClicked === openPieces) {
                 alert('You won!')
+                // bombCount = 0;
                 }
             }
         }
@@ -145,15 +149,71 @@ function neighborPieceArray(nArr){
     return nOfN;
 }
 
-
+/*----- Get gamePiece Object from Click -----*/
 
 function getGamePiece(m){
-    console.log(m);
+    // console.log(m);
     let row = parseInt(m.split(':')[0]);
     let col = parseInt(m.split(':')[1]);
     let gamePiece = gameBoard[row][col];
     return gamePiece;
 }
+
+/*----- Get Div from GamePiece -----*/
+
+function getDivFromPiece(gamePiece){
+    let gpDiv = document.getElementById(`${gamePiece.row}:${gamePiece.col}`);
+    // console.log(gpDiv);
+    return gpDiv;
+}
+
+/*----- Calculate Bombs around Clicked Piece and Flood -----*/
+
+function floodBoard(arg, arg2) {
+    let npa = [];
+    let bombsAround = 0;
+    let npaOfNpaIdx = [];
+    let npaOfNpaObj = [];
+
+
+    neighborArray = getNeighborsArray(arg);         // returns array of indices of around arg
+    npa = neighborPieceArray(neighborArray);        // returns array of gamePiece objects around arg
+
+
+    for(let i=0; i<npa.length; i++){
+        if(npa[i].bomb){
+            bombsAround += 1;
+        }
+    }
+    
+    console.log(arg2);
+    arg2.innerHTML = bombsAround;
+    
+    console.log(arg, arg2.target);
+    
+    for (let i=0; i<neighborArray.length; i++){
+        const row = neighborArray[i][0];
+        const col = neighborArray[i][1];
+        let pieceChange = document.getElementById(`${row}:${col}`);
+        if(pieceChange.style.backgroundColor !== '#59ccf0' && !npa[i].clicked){
+        pieceChange.style.backgroundColor = 'purple';
+        }  
+    }
+
+    if(bombsAround === 0){
+        console.log('hitting if statement');
+        for(let i=0; i<npa.length; i++){
+        console.log('hitting', i)
+        var m = getDivFromPiece(npa[i]);
+        floodBoard(npa[i], m);
+        }
+    }
+}
+
+
+
+/*----- Left and Right Click Functions -----*/
+
 
 function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
@@ -168,29 +228,11 @@ function leftClick(m) {
     } 
 
     getWinner();
-    neighborArray = getNeighborsArray(gamePiece);
-    // console.log(neighborArray);
-    let npa = [];
-    npa = neighborPieceArray(neighborArray);
-    let bombsAround = 0;
-    for(let i=0; i<npa.length; i++){
-        if(npa[i].bomb){
-            bombsAround += 1;
-        }
-    }
-    m.target.innerHTML = bombsAround;
-
-
-
-    for (let i=0; i<neighborArray.length; i++){
-        const row = neighborArray[i][0];
-        const col = neighborArray[i][1];
-        let pieceChange = document.getElementById(`${row}:${col}`);
-        if(pieceChange.style.backgroundColor !== 'blue'){
-        pieceChange.style.backgroundColor = 'purple';
-        }
-    }
+    floodBoard(gamePiece, m.target);
 }
+
+
+
 
 function rightClick(m) {
     let gamePiece = getGamePiece(m.target.id);
