@@ -41,7 +41,7 @@ function init() {
     let parent = document.querySelector('.gameboard');
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.9;
+            let bomb = Math.random() < 0.2;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
             
@@ -49,7 +49,7 @@ function init() {
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
             if(bomb){ 
-                div.setAttribute('class', 'bomb game-piece');
+                div.setAttribute('class', 'bomb hidden game-piece');
                 div.innerHTML = 'O';
             }
             parent.appendChild(div);
@@ -117,7 +117,7 @@ function getWinner(){
 
 function getNeighborsArray(m) {
     let gamePiece = m;
-    console.log('im a game piece', gamePiece);
+    // console.log('im a game piece', gamePiece);
     let simplifiedArray = [];
     let neighborsArray = [];
     gamePiece.neighbors.forEach(function(n,i){
@@ -129,15 +129,9 @@ function getNeighborsArray(m) {
             simplifiedArray[i][j] = parseInt(simplifiedArray[i][j]);
         });
     });
-    // simplifiedArray.forEach(function(m,i){
-    //     neighborsArray.push(m.filter(function(n,j){
-    //         if(n[j] >= 0 && n[j] < gameBoard.length)
-    //         return n[j];
-    //     }));
-    // });
     neighborsArray = simplifiedArray.filter(arr => arr[0] >= 0 && arr[1] >= 0 && arr[0] < gameBoard.length && arr[1] < gameBoard.length)
-    console.log(simplifiedArray);
-    console.log('final array', neighborsArray);
+    // console.log(simplifiedArray);
+    // console.log('neighbor array', neighborsArray);
     return neighborsArray;
 }
 
@@ -159,21 +153,39 @@ function leftClick(m) {
     gamePiece.getNeighbors(gamePiece.row, gamePiece.col)
     if (gamePiece.clicked){
         if(gamePiece.bomb){
-            console.log('this is', gpDisplay);
-            // gpDisplay.classList.remove('hidden');
+            // console.log('this is', gpDisplay);
+            gpDisplay.classList.remove('hidden');
         } else m.target.style.backgroundColor = 'blue';
     } 
 
     getWinner();
-    getNeighborsArray(gamePiece);
-    gamePiece.neighbors.forEach(function (n,i){
-        var otherPiece = document.getElementById(n);
-        if(otherPiece.style.backgroundColor !== 'blue'){
-        otherPiece.style.backgroundColor = 'purple';
+    neighborArray = getNeighborsArray(gamePiece);
+    // Want to translate neighborArray in selections on gameBoard with same row/col indices
+    console.log(neighborArray);
+    for (let i=0; i<neighborArray.length; i++){
+        for(let j=0; j<neighborArray.length; j++){
+            let pieceChange = document.getElementById(`${neighborArray[i]}:${neighborArray[j]}`);
+            // console.log(pieceChange);
+            pieceChange.style.backgroundColor = 'purple';
         }
-    });
+    }
+    }
+    // let curGamePcRow = gameBoard.
+    // neighborArray.forEach(function(m,i){
+    //     neighborArray[i].forEach(function(n,j){
+    //         gameBoard.row = neighborArray[i][j]
+    //         gameBoard
+    //     });
+    // });
+    // gamePiece.neighbors.forEach(function (n,i){
+    //     var otherPiece = document.getElementById(n);
+    //     if(otherPiece.style.backgroundColor !== 'blue'){
+    //     otherPiece.style.backgroundColor = 'purple';
+    //     }
+    // });
 
-}
+
+
 
 function rightClick(m) {
     let gamePiece = getGamePiece(m.target.id);
