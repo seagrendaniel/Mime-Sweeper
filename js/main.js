@@ -32,18 +32,18 @@ let bombArray = new Array(10).fill('').map(e => new Array(10));
 init();
 
 function init() {
-    let parent = document.querySelector('.gameboard');
-    
+    // let parent = document.querySelector('.gameboard');
+
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
             let bomb = Math.random() < 0.95;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
-            
+
             let div = document.createElement(`div`);
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
-            if(bomb){ 
+            if (bomb) {
                 div.setAttribute('class', 'bomb game-piece');
                 // div.appendChild(mimeImg);
                 div.innerHTML = 'O'
@@ -52,23 +52,23 @@ function init() {
             }
             parent.appendChild(div);
 
-            }
+        }
 
     })
 }
 
 
-function render(){
-    
+function render() {
+
     let gameBoardTotalLen = 0;
     let bombCounter = document.getElementById('bombs-left');
-    gameBoard.forEach(function(n, i){
-        gameBoard[i].forEach(function(m, j){
+    gameBoard.forEach(function (n, i) {
+        gameBoard[i].forEach(function (m, j) {
             gameBoardTotalLen += 1;
             bombArray[i][j] = gameBoard[i][j];
-            if(gameBoard[i][j].bomb){
+            if (gameBoard[i][j].bomb) {
                 bombCount += 1;
-            } 
+            }
         });
     })
     bombCounter.innerHTML = `${bombCount}`;
@@ -77,44 +77,44 @@ function render(){
 
 /*----- Determine Winner -----*/
 
-function getWinner(){
+function getWinner() {
     let flaggedArray = new Array(10).fill(null).map(e => new Array(10));
     let clickedArray = new Array(10).fill(null).map(e => new Array(10));
     let totalClicked = 0;
 
-    gameBoard.forEach(function(n,i){
-        gameBoard.forEach(function(m,j){
-            if(gameBoard[i][j].flagged){
+    gameBoard.forEach(function (n, i) {
+        gameBoard.forEach(function (m, j) {
+            if (gameBoard[i][j].flagged) {
                 flaggedArray[i][j] = gameBoard[i][j];
             }
-            if(gameBoard[i][j].clicked){
+            if (gameBoard[i][j].clicked) {
                 clickedArray[i][j] = gameBoard[i][j];
                 totalClicked += 1;
-            } 
+            }
+        });
     });
-});
     console.log(totalClicked);
-    for(let i=0; i<bombArray.length; i++){
-        for(let k=0; k<gameBoard.length; k++){
-            if(bombArray[i][k].clicked && gameBoard[i][k].clicked){
-            if(bombArray[i][k].bomb){
-                youLost();
-                return;
-                // init();
-                // render();
-            } else if (totalClicked === openPieces) {
-                // alert('You won!')
-                youWon();
-                return;
+    for (let i = 0; i < bombArray.length; i++) {
+        for (let k = 0; k < gameBoard.length; k++) {
+            if (bombArray[i][k].clicked && gameBoard[i][k].clicked) {
+                if (bombArray[i][k].bomb) {
+                    youLost();
+                    return;
+                    // init();
+                    // render();
+                } else if (totalClicked === openPieces) {
+                    // alert('You won!')
+                    youWon();
+                    return;
                 }
             }
         }
-    }   
+    }
 }
 
 /*----- Winner/Loser & Reset Functions -----*/
 
-function youWon(){
+function youWon() {
     let pieces = document.querySelectorAll('.game-piece')
     // let winDiv = document.createElement(`div`);
     let resetButton = document.querySelector('.reset-game');
@@ -126,7 +126,7 @@ function youWon(){
         p.style.display = 'none'
     })
     parent.appendChild(winDiv);
-    
+
 }
 
 function youLost() {
@@ -145,32 +145,34 @@ function youLost() {
 
 function resetGame() {
     let pieces = document.querySelectorAll('.game-piece');
-    if(loseDiv.className === 'loser'){
-    parent.removeChild(loseDiv);
+    if (loseDiv.className === 'loser') {
+        parent.removeChild(loseDiv);
     } else if (winDiv.className === 'winner') {
         parent.removeChild(winDiv);
     }
     pieces.forEach(p => {
         // p.style.display = 'block';
-        parent.removeChild(p);
+        // parent.removeChild(p);
     });
     bombCount = 0;
     // console.log(bombCount);
     init();
 
-    lClick.forEach(function (m, i) {
-        m.removeEventListener('click', function (evt) {
-            leftClick(evt);
-        });
-    });
-    rClick.forEach(function (m, i) {
-        m.removeEventListener('contextmenu', function (evt) {
-            evt.preventDefault();
-            rightClick(evt)
-        });
-    });
+    // lClick.forEach(function (m, i) {
+    //     m.removeEventListener('click', function (evt) {
+    //         leftClick(evt);
+    //     });
+    // });
+    // rClick.forEach(function (m, i) {
+    //     m.removeEventListener('contextmenu', function (evt) {
+    //         evt.preventDefault();
+    //         rightClick(evt)
+    //     });
+    // });
+    console.log("THIS IS L CLICK", lClick)
     clearInterval(timer);
     start();
+    // render()
 }
 
 /*----- Calculate Game Piece Neighbors -----*/
@@ -180,12 +182,12 @@ function getNeighborsArray(m) {
     let gamePiece = m;
     let simplifiedArray = [];
     let neighborArray = [];
-    gamePiece.neighbors.forEach(function(n,i){
+    gamePiece.neighbors.forEach(function (n, i) {
         simplifiedArray[i] = gamePiece.neighbors[i];
         simplifiedArray[i] = simplifiedArray[i].split(':');
     });
-    simplifiedArray.forEach(function(m,i){
-        simplifiedArray[i].forEach(function(n,j){
+    simplifiedArray.forEach(function (m, i) {
+        simplifiedArray[i].forEach(function (n, j) {
             simplifiedArray[i][j] = parseInt(simplifiedArray[i][j]);
         });
     });
@@ -193,10 +195,10 @@ function getNeighborsArray(m) {
     return neighborArray;
 }
 
-function neighborPieceArray(nArr){
+function neighborPieceArray(nArr) {
     let nOfN = [];
     let gamePiece;
-    for(let i=0; i<nArr.length; i++){
+    for (let i = 0; i < nArr.length; i++) {
         row = nArr[i][0];
         col = nArr[i][1];
         gamePiece = gameBoard[row][col];
@@ -207,7 +209,7 @@ function neighborPieceArray(nArr){
 
 /*----- Get gamePiece Object from Click -----*/
 
-function getGamePiece(m){
+function getGamePiece(m) {
     // console.log(m);
     let row = parseInt(m.split(':')[0]);
     let col = parseInt(m.split(':')[1]);
@@ -217,7 +219,7 @@ function getGamePiece(m){
 
 /*----- Get Div from GamePiece -----*/
 
-function getDivFromPiece(gamePiece){
+function getDivFromPiece(gamePiece) {
     let gpDiv = document.getElementById(`${gamePiece.row}:${gamePiece.col}`);
     // console.log(gpDiv);
     return gpDiv;
@@ -238,33 +240,25 @@ function floodBoard(arg, arg2, visitedPieces = {}) {
     npa = neighborPieceArray(neighborArray);        // returns array of gamePiece objects around arg
 
 
-    for(let i=0; i<npa.length; i++){
-        if(npa[i].bomb){
+    for (let i = 0; i < npa.length; i++) {
+        if (npa[i].bomb) {
             bombsAround += 1;
         }
     }
-    
+
     arg2.innerHTML = bombsAround;
     arg2.style.backgroundColor = 'black';
     arg2.style.color = 'white';
 
-    if(bombsAround === 0) {
+    if (bombsAround === 0) {
         arg.innerHTML = '';
     }
-        
-    // for (let i=0; i<neighborArray.length; i++){
-    //     const row = neighborArray[i][0];
-    //     const col = neighborArray[i][1];
-    //     let pieceChange = document.getElementById(`${row}:${col}`);
-    //     if(pieceChange.style.backgroundColor !== '#59ccf0' && !npa[i].clicked){
-    //     pieceChange.style.backgroundColor = 'purple';
-    //     }  
-    // }
 
-    if(bombsAround === 0){
-        for(let i=0; i<npa.length; i++){
-        var m = getDivFromPiece(npa[i]);
-        floodBoard(npa[i], m, visitedPieces);
+
+    if (bombsAround === 0) {
+        for (let i = 0; i < npa.length; i++) {
+            var m = getDivFromPiece(npa[i]);
+            floodBoard(npa[i], m, visitedPieces);
         }
     }
 }
@@ -278,12 +272,12 @@ function leftClick(m) {
     let gamePiece = getGamePiece(m.target.id);
     gamePiece.isClicked();
     let gpDisplay = m.target;
-    if (gamePiece.clicked){
-        if(gamePiece.bomb){
+    if (gamePiece.clicked) {
+        if (gamePiece.bomb) {
             // console.log('this is', gpDisplay);
             gpDisplay.classList.remove('hidden');
         } else m.target.style.backgroundColor = '#59ccf0';
-    } 
+    }
 
     getWinner();
     floodBoard(gamePiece, m.target);
@@ -297,9 +291,9 @@ function rightClick(m) {
     let totalBombs = bombCount
     let counter = 0
     gamePiece.toggleFlag();
-    gameBoard.forEach(function(n, i){
-        gameBoard[i].forEach(function(m, j){
-            if(m.flagged){
+    gameBoard.forEach(function (n, i) {
+        gameBoard[i].forEach(function (m, j) {
+            if (m.flagged) {
                 counter += 1
                 console.log(m);
             }
@@ -310,19 +304,19 @@ function rightClick(m) {
     let bombCounter = document.getElementById('bombs-left');
     // console.log(bombCount);
     bombCounter.innerHTML = `${totalBombs}`;
-    
-    if(gamePiece.flagged){
+
+    if (gamePiece.flagged) {
         m.target.style.backgroundColor = 'red';
         m.target.textContent = '?';
     } else {
-    m.target.style.backgroundColor = '#FF8300';
-    m.target.textContent = '';
+        m.target.style.backgroundColor = '#FF8300';
+        m.target.textContent = '';
     }
 
     // getWinner();
 }
-    // render();
-    // console.log(gamePiece);
+// render();
+// console.log(gamePiece);
 
 
 /*----- timer function -----*/
@@ -337,12 +331,14 @@ function start() {
     timer = setInterval(changeTime, 1000);
     console.log("hithithith")
     lClick.forEach(function (m, i) {
+        console.log(m)
         m.addEventListener('click', function (evt) {
             leftClick(evt);
         });
     });
     
-    rClick.forEach(function (m, i) {
+    lClick.forEach(function (m, i) {
+        console.log("hello")
         m.addEventListener('contextmenu', function (evt) {
             evt.preventDefault();
             rightClick(evt)
@@ -354,8 +350,10 @@ function start() {
 /*----- event listeners -----*/
 let lClick = document.querySelectorAll('.game-piece');
 let rClick = document.querySelectorAll('.game-piece');
-let startGame = document.querySelector('.play-game').addEventListener('click', start);
-let resetGameButton = document.querySelector('.reset-game').addEventListener('click', resetGame);
+let startGame = document.querySelector('.play-game');
+startGame.addEventListener('click', start);
+let resetGameButton = document.querySelector('.reset-game')
+resetGameButton.addEventListener('click', resetGame);
 
 
 
