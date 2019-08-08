@@ -4,7 +4,11 @@ const gameBoardLength = 10;
 let timer = null;
 let bombCount = 0;
 let openPieces;
-// let gameBoard = Array(10).fill([]);
+const mimeImg = new Image();
+mimeImg.src = 'https://i.imgur.com/f4CjPEU.png';
+let parent = document.querySelector('.gameboard');
+let loseDiv = document.createElement(`div`);
+let winDiv = document.createElement(`div`);
 
 
 /*----- app's state (variables) -----*/
@@ -29,6 +33,7 @@ init();
 
 function init() {
     let parent = document.querySelector('.gameboard');
+    
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
             let bomb = Math.random() < 0.95;
@@ -40,10 +45,14 @@ function init() {
             div.setAttribute('id', `${i}:${j}`);
             if(bomb){ 
                 div.setAttribute('class', 'bomb game-piece');
-                div.innerHTML = 'O';
+                // div.appendChild(mimeImg);
+                div.innerHTML = 'O'
+                // div.style.backgroundImage = "url(''https://i.imgur.com/f4CjPEU.png')";
+                // div.style.backgroundImage = url('https://i.imgur.com/f4CjPEU.png');
             }
             parent.appendChild(div);
-        }
+
+            }
 
     })
 }
@@ -89,12 +98,12 @@ function getWinner(){
         for(let k=0; k<gameBoard.length; k++){
             if(bombArray[i][k].clicked && gameBoard[i][k].clicked){
             if(bombArray[i][k].bomb){
-                alert('You Lost!');
-                // bombCount = 0;
+                youLost();
+                return;
                 // init();
                 // render();
             } else if (totalClicked === openPieces) {
-                alert('You won!')
+                // alert('You won!')
                 youWon();
                 return;
                 }
@@ -103,19 +112,65 @@ function getWinner(){
     }   
 }
 
-/*----- Winner & Loser Functions -----*/
+/*----- Winner/Loser & Reset Functions -----*/
 
 function youWon(){
-    let parent = document.querySelector('.gameboard');
-    let winDiv = document.createElement(`div`);
+    let pieces = document.querySelectorAll('.game-piece')
+    // let winDiv = document.createElement(`div`);
+    let resetButton = document.querySelector('.reset-game');
     winDiv.setAttribute(`class`, `winner`);
     winDiv.innerHTML = `You Survived! Ready to try again? Muahahahahaha...`;
+    // console.log(parent)
+    resetButton.style.visibility = 'visible';
+    pieces.forEach(p => {
+        p.style.display = 'none'
+    })
     parent.appendChild(winDiv);
-    // bombCount = 0;
+    
 }
 
 function youLost() {
+    let pieces = document.querySelectorAll('.game-piece')
+    let resetButton = document.querySelector('.reset-game');
+    loseDiv.setAttribute(`class`, `loser`);
+    loseDiv.appendChild = mimeImg;
+    // console.log(parent)
+    resetButton.style.visibility = 'visible';
+    pieces.forEach(p => {
+        p.style.display = 'none'
+    })
+    parent.appendChild(loseDiv);
 
+}
+
+function resetGame() {
+    let pieces = document.querySelectorAll('.game-piece');
+    if(loseDiv.className === 'loser'){
+    parent.removeChild(loseDiv);
+    } else if (winDiv.className === 'winner') {
+        parent.removeChild(winDiv);
+    }
+    pieces.forEach(p => {
+        // p.style.display = 'block';
+        parent.removeChild(p);
+    });
+    bombCount = 0;
+    // console.log(bombCount);
+    init();
+
+    lClick.forEach(function (m, i) {
+        m.removeEventListener('click', function (evt) {
+            leftClick(evt);
+        });
+    });
+    rClick.forEach(function (m, i) {
+        m.removeEventListener('contextmenu', function (evt) {
+            evt.preventDefault();
+            rightClick(evt)
+        });
+    });
+    clearInterval(timer);
+    start();
 }
 
 /*----- Calculate Game Piece Neighbors -----*/
@@ -190,7 +245,9 @@ function floodBoard(arg, arg2, visitedPieces = {}) {
     }
     
     arg2.innerHTML = bombsAround;
-    arg2.style.backgroundColor = '#59ccf0';
+    arg2.style.backgroundColor = 'black';
+    arg2.style.color = 'white';
+
     if(bombsAround === 0) {
         arg.innerHTML = '';
     }
@@ -224,7 +281,7 @@ function leftClick(m) {
     if (gamePiece.clicked){
         if(gamePiece.bomb){
             // console.log('this is', gpDisplay);
-            // gpDisplay.classList.remove('hidden');
+            gpDisplay.classList.remove('hidden');
         } else m.target.style.backgroundColor = '#59ccf0';
     } 
 
@@ -256,7 +313,11 @@ function rightClick(m) {
     
     if(gamePiece.flagged){
         m.target.style.backgroundColor = 'red';
-    } else m.target.style.backgroundColor = '#FF8300'
+        m.target.textContent = '?';
+    } else {
+    m.target.style.backgroundColor = '#FF8300';
+    m.target.textContent = '';
+    }
 
     // getWinner();
 }
@@ -274,7 +335,7 @@ function changeTime() {
 function start() {
     time = 0;
     timer = setInterval(changeTime, 1000);
-
+    console.log("hithithith")
     lClick.forEach(function (m, i) {
         m.addEventListener('click', function (evt) {
             leftClick(evt);
@@ -294,6 +355,7 @@ function start() {
 let lClick = document.querySelectorAll('.game-piece');
 let rClick = document.querySelectorAll('.game-piece');
 let startGame = document.querySelector('.play-game').addEventListener('click', start);
+let resetGameButton = document.querySelector('.reset-game').addEventListener('click', resetGame);
 
 
 

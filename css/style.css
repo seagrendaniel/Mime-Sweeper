@@ -14,28 +14,35 @@ body {
 }
 
 main {
-    height: 500px;
+    margin-left: 20vmin;
+    margin-right: 10vmin;
+    height: 750px;
     display: grid;
-    grid-template-columns: 200px 350px 200px;
+    grid-template-columns: 200px 600px 200px;
     grid-template-rows: 1fr 1fr 4fr 1fr;
     justify-items: center;
   }
 
 div.gameboard {
+    /* width: 1000px; */
     display: grid;
-    grid-template-columns: repeat(10, 20px);
-    grid-template-rows: repeat(10, 20px);
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
     grid-column: 2 / 3;
     grid-row: 2 / 5;
-    
+
 }
 
 div.game-piece {
+    display: flex;
     border: 0.5px solid black;
     margin-top: -1px;
     margin-left: -1px;
     background-color: #FF8300;
     text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
 }
 
 h1 {
@@ -43,24 +50,32 @@ h1 {
     /* background-color: crimson; */
     padding: 8px;
     border-radius: 2%;
+    font-size: 40px;
 }
 
 #timer{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    font-size: 16px;
+    font-size: 24px;
     margin-top: 10px;
 }
 
 #time-passed{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    font-size: 14px;
+    font-size: 22px;
     text-align: center;
     margin-top: 5px;
 }
 
-img{
+img {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+img.creepy-mime {
     height: 10vmin;
     width: 10vmin;
     border: 1px solid black;
@@ -70,21 +85,22 @@ img{
 div.bomb-counter {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    font-size: 12px;
+    font-size: 50px;
 }
 #bombs-left {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    font-size: 16px;
+    font-size: 50px;
     text-align: center;
     margin-top: 5px;
 }
 
 footer {
     grid-column: 2 / 3;
-    grid-row: 4 / 5;
-    font-size: 8px;
-    align-self: center;
+    grid-row: 5 / 6;
+    font-size: 12px;
+    align-self: top;
+    margin-bottom: 100px;
 }
 
 #mime-left {
@@ -106,6 +122,13 @@ footer {
     align-self: center;
     border: 2px solid black;
     border-radius: 2%;
+    font-size: 24px;
+    background-color: #A1080F; 
+}
+
+#play-game:hover {
+    color:  #A1080F;
+    background-Color: black;
 }
 
 .bomb {
@@ -113,17 +136,19 @@ footer {
     border: 0.5px solid black;
     margin-top: -1px;
     margin-left: -1px;
-    text-align: center;
+    font-size: 20px;
 }
 
-.hidden {
+div.hidden {
+    /* display: none; */
     font-size: 0px;
+    color: white;
 }
 
 div.winner {
     grid-column: 1 / 4;
     grid-row: 1 / 4;
-    font-size: 50px;
+    font-size: 40px;
     z-index: 2;
     color: white;
 }
@@ -135,3 +160,25 @@ div.instructions {
     text-align: center;
     font-weight: bold;
 }
+
+button.reset-game {
+    display: flex;
+    text-align: center;
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+    align-items: bottom;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 2%;
+    font-size: 24px;
+    background-color: #A1080F; 
+    margin-bottom: 200px;
+    visibility: hidden;
+}
+
+button.reset-game:hover {
+    color:  #A1080F;
+    background-Color: black;
+}
+
+
