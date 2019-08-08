@@ -4,7 +4,8 @@ html, * {
   }
   
 body {
-    height: 50vh;
+    align-self: center;
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: right;
@@ -13,9 +14,9 @@ body {
 }
 
 main {
-    height: 50vh;
+    height: 500px;
     display: grid;
-    grid-template-columns: 150px 250px 150px;
+    grid-template-columns: 200px 350px 200px;
     grid-template-rows: 1fr 1fr 4fr 1fr;
     justify-items: center;
   }
@@ -120,8 +121,17 @@ footer {
 }
 
 div.winner {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-column: 1 / 4;
+    grid-row: 1 / 4;
     font-size: 50px;
     z-index: 2;
+    color: white;
+}
+
+div.instructions {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
 }

@@ -31,7 +31,7 @@ function init() {
     let parent = document.querySelector('.gameboard');
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.2;
+            let bomb = Math.random() < 0.95;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
             
@@ -95,7 +95,8 @@ function getWinner(){
                 // render();
             } else if (totalClicked === openPieces) {
                 alert('You won!')
-                // bombCount = 0;
+                youWon();
+                return;
                 }
             }
         }
@@ -110,7 +111,7 @@ function youWon(){
     winDiv.setAttribute(`class`, `winner`);
     winDiv.innerHTML = `You Survived! Ready to try again? Muahahahahaha...`;
     parent.appendChild(winDiv);
-    bombCount = 0;
+    // bombCount = 0;
 }
 
 function youLost() {
@@ -189,6 +190,10 @@ function floodBoard(arg, arg2, visitedPieces = {}) {
     }
     
     arg2.innerHTML = bombsAround;
+    arg2.style.backgroundColor = '#59ccf0';
+    if(bombsAround === 0) {
+        arg.innerHTML = '';
+    }
         
     // for (let i=0; i<neighborArray.length; i++){
     //     const row = neighborArray[i][0];
