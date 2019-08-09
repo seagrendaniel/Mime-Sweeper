@@ -181,4 +181,13 @@ button.reset-game:hover {
     background-Color: black;
 }
 
+@keyframes scare {
+    0% {background: black}
+    100% {background: url("https://i.imgur.com/wIWXIL4.png") no-repeat fixed center;
+        z-index: 1;
+        height: 500px;
+        width: 427px;
+    }
+}
+
 

@@ -9,6 +9,11 @@ mimeImg.src = 'https://i.imgur.com/f4CjPEU.png';
 let parent = document.querySelector('.gameboard');
 let loseDiv = document.createElement(`div`);
 let winDiv = document.createElement(`div`);
+const baseTrack = new Audio();
+baseTrack.src = 'https://soundimage.org/wp-content/uploads/2018/10/Bells-of-Weirdness_Looping.mp3';
+baseTrack.autoplay = true;
+baseTrack.loop = true;
+baseTrack.load();
 
 
 /*----- app's state (variables) -----*/
@@ -33,10 +38,10 @@ init();
 
 function init() {
     // let parent = document.querySelector('.gameboard');
-
+    console.log(baseTrack);
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.95;
+            let bomb = Math.random() < 0.15;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
 
@@ -44,7 +49,7 @@ function init() {
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
             if (bomb) {
-                div.setAttribute('class', 'bomb game-piece');
+                div.setAttribute('class', 'bomb hidden game-piece');
                 // div.appendChild(mimeImg);
                 div.innerHTML = 'O'
                 // div.style.backgroundImage = "url(''https://i.imgur.com/f4CjPEU.png')";
@@ -55,6 +60,7 @@ function init() {
         }
 
     })
+    baseTrack.play();
 }
 
 
@@ -127,36 +133,33 @@ function youWon() {
     })
     parent.appendChild(winDiv);
 
+    // lClick.forEach(function (m, i) {
+    //     m.removeEventListener('click', function (evt) {
+    //         leftClick(evt);
+    //     });
+    // });
+    // rClick.forEach(function (m, i) {
+    //     m.removeEventListener('contextmenu', function (evt) {
+    //         evt.preventDefault();
+    //         rightClick(evt)
+    //     });
+    // });
+
 }
 
 function youLost() {
     let pieces = document.querySelectorAll('.game-piece')
     let resetButton = document.querySelector('.reset-game');
     loseDiv.setAttribute(`class`, `loser`);
-    loseDiv.appendChild = mimeImg;
+    let loseDivAction = document.querySelector('body')
+    loseDivAction.style.animation = "scare 2s"
+    // loseDiv.appendChild = mimeImg;
     // console.log(parent)
     resetButton.style.visibility = 'visible';
     pieces.forEach(p => {
         p.style.display = 'none'
     })
     parent.appendChild(loseDiv);
-
-}
-
-function resetGame() {
-    let pieces = document.querySelectorAll('.game-piece');
-    if (loseDiv.className === 'loser') {
-        parent.removeChild(loseDiv);
-    } else if (winDiv.className === 'winner') {
-        parent.removeChild(winDiv);
-    }
-    pieces.forEach(p => {
-        // p.style.display = 'block';
-        // parent.removeChild(p);
-    });
-    bombCount = 0;
-    // console.log(bombCount);
-    init();
 
     // lClick.forEach(function (m, i) {
     //     m.removeEventListener('click', function (evt) {
@@ -169,10 +172,45 @@ function resetGame() {
     //         rightClick(evt)
     //     });
     // });
-    console.log("THIS IS L CLICK", lClick)
+
+}
+
+function resetGame() {
+    let pieces = document.querySelectorAll('.game-piece');
+    if (loseDiv.className === 'loser') {
+        parent.removeChild(loseDiv);
+    } else if (winDiv.className === 'winner') {
+        parent.removeChild(winDiv);
+    }
+    // console.log(parent.children.length)
+    // for(var i = 0; i < parent.children.length; i++){
+    //     parent.children[i].addEventListener('click', function(e){
+    //         leftClick(e)
+    //     })
+    // }
+
+    pieces.forEach(p => {
+        // p.style.display = 'block';
+        parent.removeChild(p);
+    });
+    bombCount = 0;
+    // console.log(bombCount);
+    init();
+    // console.log(lClick);
     clearInterval(timer);
+    // lClick.forEach(function (m, i) {
+    //     m.removeEventListener('click', function (evt) {
+    //         leftClick(evt);
+    //     });
+    // });
+    // rClick.forEach(function (m, i) {
+    //     m.removeEventListener('contextmenu', function (evt) {
+    //         evt.preventDefault();
+    //         rightClick(evt)
+    //     });
+    // });
+
     start();
-    // render()
 }
 
 /*----- Calculate Game Piece Neighbors -----*/
@@ -251,8 +289,9 @@ function floodBoard(arg, arg2, visitedPieces = {}) {
     arg2.style.color = 'white';
 
     if (bombsAround === 0) {
-        arg.innerHTML = '';
+        arg2.innerHTML = '';
     }
+    
 
 
     if (bombsAround === 0) {
@@ -300,9 +339,7 @@ function rightClick(m) {
         });
     });
     totalBombs = totalBombs - counter;
-    // console.log(totalBombs)
     let bombCounter = document.getElementById('bombs-left');
-    // console.log(bombCount);
     bombCounter.innerHTML = `${totalBombs}`;
 
     if (gamePiece.flagged) {
@@ -315,8 +352,6 @@ function rightClick(m) {
 
     // getWinner();
 }
-// render();
-// console.log(gamePiece);
 
 
 /*----- timer function -----*/
@@ -331,7 +366,7 @@ function start() {
     timer = setInterval(changeTime, 1000);
     console.log("hithithith")
     lClick.forEach(function (m, i) {
-        console.log(m)
+        // console.log(m)
         m.addEventListener('click', function (evt) {
             leftClick(evt);
         });
