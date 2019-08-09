@@ -15,6 +15,9 @@ baseTrack.autoplay = true;
 baseTrack.loop = true;
 baseTrack.load();
 
+const scream = new Audio();
+
+
 
 /*----- app's state (variables) -----*/
 let gameBoard = new Array(10).fill(null).map(e => new Array(10));
@@ -60,7 +63,6 @@ function init() {
         }
 
     })
-    baseTrack.play();
 }
 
 
@@ -79,6 +81,7 @@ function render() {
     })
     bombCounter.innerHTML = `${bombCount}`;
     openPieces = gameBoardTotalLen - bombCount;
+    baseTrack.play();
 }
 
 /*----- Determine Winner -----*/
@@ -182,34 +185,14 @@ function resetGame() {
     } else if (winDiv.className === 'winner') {
         parent.removeChild(winDiv);
     }
-    // console.log(parent.children.length)
-    // for(var i = 0; i < parent.children.length; i++){
-    //     parent.children[i].addEventListener('click', function(e){
-    //         leftClick(e)
-    //     })
-    // }
+
 
     pieces.forEach(p => {
-        // p.style.display = 'block';
         parent.removeChild(p);
     });
     bombCount = 0;
-    // console.log(bombCount);
     init();
-    // console.log(lClick);
     clearInterval(timer);
-    // lClick.forEach(function (m, i) {
-    //     m.removeEventListener('click', function (evt) {
-    //         leftClick(evt);
-    //     });
-    // });
-    // rClick.forEach(function (m, i) {
-    //     m.removeEventListener('contextmenu', function (evt) {
-    //         evt.preventDefault();
-    //         rightClick(evt)
-    //     });
-    // });
-
     start();
 }
 

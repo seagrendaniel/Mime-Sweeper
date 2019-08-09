@@ -76,8 +76,8 @@ img {
 }
 
 img.creepy-mime {
-    height: 10vmin;
-    width: 10vmin;
+    height: 15vmin;
+    width: 15vmin;
     border: 1px solid black;
     border-radius: 50%;
 }
@@ -159,6 +159,7 @@ div.instructions {
     font-size: 14px;
     text-align: center;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 button.reset-game {
