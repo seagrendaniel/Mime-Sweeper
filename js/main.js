@@ -22,7 +22,6 @@ const scream = new Audio();
 /*----- app's state (variables) -----*/
 let gameBoard = new Array(10).fill(null).map(e => new Array(10));
 let bombArray = new Array(10).fill('').map(e => new Array(10));
-// console.log(gameBoard)
 
 /*----- cached element references -----*/
 
@@ -40,7 +39,6 @@ let bombArray = new Array(10).fill('').map(e => new Array(10));
 init();
 
 function init() {
-    // let parent = document.querySelector('.gameboard');
     console.log(baseTrack);
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
@@ -103,10 +101,7 @@ function getWinner() {
                 if (bombArray[i][k].bomb) {
                     youLost();
                     return;
-                    // init();
-                    // render();
                 } else if (totalClicked === openPieces) {
-                    // alert('You won!')
                     youWon();
                     return;
                 }
@@ -119,29 +114,14 @@ function getWinner() {
 
 function youWon() {
     let pieces = document.querySelectorAll('.game-piece')
-    // let winDiv = document.createElement(`div`);
     let resetButton = document.querySelector('.reset-game');
     winDiv.setAttribute(`class`, `winner`);
     winDiv.innerHTML = `You Survived! Ready to try again? Muahahahahaha...`;
-    // console.log(parent)
     resetButton.style.visibility = 'visible';
     pieces.forEach(p => {
         p.style.display = 'none'
     })
     parent.appendChild(winDiv);
-
-    // lClick.forEach(function (m, i) {
-    //     m.removeEventListener('click', function (evt) {
-    //         leftClick(evt);
-    //     });
-    // });
-    // rClick.forEach(function (m, i) {
-    //     m.removeEventListener('contextmenu', function (evt) {
-    //         evt.preventDefault();
-    //         rightClick(evt)
-    //     });
-    // });
-
 }
 
 function youLost() {
@@ -150,26 +130,11 @@ function youLost() {
     loseDiv.setAttribute(`class`, `loser`);
     let loseDivAction = document.querySelector('body')
     loseDivAction.style.animation = "scare 2s"
-    // loseDiv.appendChild = mimeImg;
-    // console.log(parent)
     resetButton.style.visibility = 'visible';
     pieces.forEach(p => {
         p.style.display = 'none'
     })
     parent.appendChild(loseDiv);
-
-    // lClick.forEach(function (m, i) {
-    //     m.removeEventListener('click', function (evt) {
-    //         leftClick(evt);
-    //     });
-    // });
-    // rClick.forEach(function (m, i) {
-    //     m.removeEventListener('contextmenu', function (evt) {
-    //         evt.preventDefault();
-    //         rightClick(evt)
-    //     });
-    // });
-
 }
 
 function resetGame() {
@@ -236,7 +201,6 @@ function getGamePiece(m) {
 
 function getDivFromPiece(gamePiece) {
     let gpDiv = document.getElementById(`${gamePiece.row}:${gamePiece.col}`);
-    // console.log(gpDiv);
     return gpDiv;
 }
 
@@ -290,7 +254,6 @@ function leftClick(m) {
     let gpDisplay = m.target;
     if (gamePiece.clicked) {
         if (gamePiece.bomb) {
-            // console.log('this is', gpDisplay);
             gpDisplay.classList.remove('hidden');
         } else m.target.style.backgroundColor = '#59ccf0';
     }
@@ -326,8 +289,6 @@ function rightClick(m) {
         m.target.style.backgroundColor = '#FF8300';
         m.target.textContent = '';
     }
-
-    // getWinner();
 }
 
 
@@ -341,7 +302,7 @@ function changeTime() {
 function start() {
     time = 0;
     timer = setInterval(changeTime, 1000);
-    console.log("hithithith")
+    // console.log("hithithith")
     lClick.forEach(function (m, i) {
         // console.log(m)
         m.addEventListener('click', function (evt) {
@@ -350,7 +311,7 @@ function start() {
     });
     
     lClick.forEach(function (m, i) {
-        console.log("hello")
+        // console.log("hello")
         m.addEventListener('contextmenu', function (evt) {
             evt.preventDefault();
             rightClick(evt)

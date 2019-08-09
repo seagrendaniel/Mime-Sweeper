@@ -3,10 +3,36 @@
 
 This game is based on the classic computer game Minesweeper in which the player has to navigate a randomized set of bombs by clicking all the squares on the 10x10 game board that do not have bombs. The player navigates the bombs by triangulating their locations based on a 'bomb count'. Each square that is touching a bomb (once clicked) shows the number of bombs that it is touching (up to a maximum of 8 bombs). Once all empty squares have been revealed, the player wins the game. If a bomb is clicked at any point, the game is lost. 
 
+##Screenshots
+
+####Starting Screen
+<img src=https://i.imgur.com/ghtCqmY.png>
+####Game Initiated
+<img src=https://i.imgur.com/oKur80X.png>
+####Playing the Game - Numbers in the tiles represent bombs touching each square
+<img src=https://i.imgur.com/qUym0PU.png>
+
+##Wireframes
+
+<img src=https://i.imgur.com/X2H6Kvr.png>
+
+<img src=https://i.imgur.com/EeKRoEG.png>
+
 ###Languages Used: 
 This game ws built using HTML5, CSS, and vanilla JavaScript. 
 
-## Psuedocode for Mime Sweeper
+###Getting Started:
+Follow this link [here] (https://seagrendaniel.github.io/Mime-Sweeper/) to play the game. 
+
+###Next Steps: 
+There are a few items I plan on adding to this game in the coming weeks: 
+
+- Add a 'Difficulty Selector'. This will build various sized game boards based on user chosen difficulty.
+
+- Improve CSS styling to make the game look beautiful.
+
+
+<!--## Psuedocode for Mime Sweeper
 
 ### Initiation 
 
@@ -39,4 +65,4 @@ Update game piece object with "flag" image
 
 When bomb counter reaches 0, check if game pieces w/ 'flag' property also have 'bomb' property.
 
-If all pieces match bombs to flags, initiate "You Won!" sequence. 
+If all pieces match bombs to flags, initiate "You Won!" sequence. -->
