@@ -56,7 +56,6 @@ function init() {
             }
             parent.appendChild(div);
         }
-
     })
 }
 

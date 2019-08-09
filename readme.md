@@ -1,4 +1,12 @@
-## Psuedocode for Minesweeper
+#Mime Sweeper
+#####A spooky take on the classic Minesweeper
+
+This game is based on the classic computer game Minesweeper in which the player has to navigate a randomized set of bombs by clicking all the squares on the 10x10 game board that do not have bombs. The player navigates the bombs by triangulating their locations based on a 'bomb count'. Each square that is touching a bomb (once clicked) shows the number of bombs that it is touching (up to a maximum of 8 bombs). Once all empty squares have been revealed, the player wins the game. If a bomb is clicked at any point, the game is lost. 
+
+###Languages Used: 
+This game ws built using HTML5, CSS, and vanilla JavaScript. 
+
+## Psuedocode for Mime Sweeper
 
 ### Initiation 
 
