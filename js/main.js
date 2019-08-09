@@ -52,14 +52,9 @@ function init() {
             div.setAttribute('class', 'game-piece');
             div.setAttribute('id', `${i}:${j}`);
             if (bomb) {
-                div.setAttribute('class', 'bomb hidden game-piece');
-                // div.appendChild(mimeImg);
-                div.innerHTML = 'O'
-                // div.style.backgroundImage = "url(''https://i.imgur.com/f4CjPEU.png')";
-                // div.style.backgroundImage = url('https://i.imgur.com/f4CjPEU.png');
+                div.setAttribute('class', 'bomb game-piece');
             }
             parent.appendChild(div);
-
         }
 
     })
