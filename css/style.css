@@ -14,8 +14,7 @@ body {
 }
 
 main {
-    margin-left: 20vmin;
-    margin-right: 10vmin;
+    margin: auto;
     height: 750px;
     display: grid;
     grid-template-columns: 200px 600px 200px;

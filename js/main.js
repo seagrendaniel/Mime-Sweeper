@@ -16,12 +16,12 @@ baseTrack.loop = true;
 baseTrack.load();
 
 const scream = new Audio();
+let gameBoard;
 
 
+let bombArray = new Array(10).fill('').map(e => new Array(10));
 
 /*----- app's state (variables) -----*/
-let gameBoard = new Array(10).fill(null).map(e => new Array(10));
-let bombArray = new Array(10).fill('').map(e => new Array(10));
 
 /*----- cached element references -----*/
 
@@ -39,10 +39,11 @@ let bombArray = new Array(10).fill('').map(e => new Array(10));
 init();
 
 function init() {
+    gameBoard = new Array(10).fill(null).map(e => new Array(10));
     console.log(baseTrack);
     gameBoard.forEach((g, i) => {
         for (let j = 0; j < gameBoard.length; j++) {
-            let bomb = Math.random() < 0.15;
+            let bomb = Math.random() < 0.1;
             var newPiece = new GamePiece(i, j, bomb);
             g[j] = newPiece;
 
@@ -151,6 +152,9 @@ function resetGame() {
     });
     bombCount = 0;
     init();
+    document.querySelector('.gameboard').addEventListener('click', function(e){
+        console.log(e.target);
+    });
     clearInterval(timer);
     start();
 }
@@ -321,8 +325,8 @@ function start() {
 }
 
 /*----- event listeners -----*/
-let lClick = document.querySelectorAll('.game-piece');
-let rClick = document.querySelectorAll('.game-piece');
+let lClick = document.querySelectorAll('.gameboard');
+let rClick = document.querySelectorAll('.gameboard');
 let startGame = document.querySelector('.play-game');
 startGame.addEventListener('click', start);
 let resetGameButton = document.querySelector('.reset-game')
