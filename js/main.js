@@ -38,6 +38,8 @@ let bombArray = new Array(10).fill('').map(e => new Array(10));
 /*----- functions -----*/
 init();
 
+
+// initialize the game board
 function init() {
     gameBoard = new Array(10).fill(null).map(e => new Array(10));
     console.log(baseTrack);
@@ -59,6 +61,7 @@ function init() {
 }
 
 
+// render the game board
 function render() {
 
     let gameBoardTotalLen = 0;
