@@ -77,6 +77,7 @@ function render() {
     })
     bombCounter.innerHTML = `${bombCount}`;
     openPieces = gameBoardTotalLen - bombCount;
+    console.log('OPEN PIECES', openPieces)
     baseTrack.play();
 }
 
@@ -142,24 +143,25 @@ function youLost() {
 }
 
 function resetGame() {
-    let pieces = document.querySelectorAll('.game-piece');
-    if (loseDiv.className === 'loser') {
-        parent.removeChild(loseDiv);
-    } else if (winDiv.className === 'winner') {
-        parent.removeChild(winDiv);
-    }
+    // let pieces = document.querySelectorAll('.game-piece');
+    // if (loseDiv.className === 'loser') {
+    //     parent.removeChild(loseDiv);
+    // } else if (winDiv.className === 'winner') {
+    //     parent.removeChild(winDiv);
+    // }
 
 
-    pieces.forEach(p => {
-        parent.removeChild(p);
-    });
-    bombCount = 0;
-    init();
-    document.querySelector('.gameboard').addEventListener('click', function(e){
-        console.log(e.target);
-    });
-    clearInterval(timer);
-    start();
+    // pieces.forEach(p => {
+    //     parent.removeChild(p);
+    // });
+    // bombCount = 0;
+    // init();
+    // document.querySelector('.gameboard').addEventListener('click', function(e){
+    //     console.log(e.target);
+    // });
+    // clearInterval(timer);
+    // start();
+    location.reload(true);
 }
 
 /*----- Calculate Game Piece Neighbors -----*/
